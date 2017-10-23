@@ -28,9 +28,9 @@ class issue extends hasTimes {
 
         return promise;
     }
-    
-     list(project, state, my) {
-      return new Promise((resolve, reject) => {
+
+    list(project, state, my) {
+        return new Promise((resolve, reject) => {
         let promise;
         const query = `scope=${my ? "assigned-to-me" : "all"}&state=${state}`;
         if (project) {
