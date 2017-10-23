@@ -11,6 +11,7 @@ const Tasks = require('./include/tasks');
 program
     .arguments('[project]')
     .option('--verbose', 'show verbose output')
+    .option('-t, --type <type>', 'specify resource type: issue, merge_request')
     .option('-c, --closed', 'show closed issues (instead of opened only)')
     .option('--my', 'show only issues assigned to me')
     .parse(process.argv);
@@ -22,13 +23,13 @@ let config = new Config(process.cwd()),
     type = program.type ? program.type : 'issue',
     project = program.args[0];
 
-tasks.list(project, program.closed ? 'closed' : 'opened', program.my)
+tasks.list(project, program.closed ? 'closed' : 'opened', program.my, program.type)
   .then(issues => {
     let table = new Table({
       style : {compact : true, 'padding-left' : 1}
     });
     if (issues.length == 0) {
-      console.log("No issues found.");
+      console.log("No ${programm.type}s found.");
     }
     issues.forEach(issue => {
       table.push([issue.iid.toString().magenta, issue.title.green + "\n" + issue.data.web_url.gray, issue.state])
